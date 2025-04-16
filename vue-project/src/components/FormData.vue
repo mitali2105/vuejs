@@ -6,6 +6,7 @@
       <div class="grid">
         <input
           type="text"
+          v-model = "UserStore.formUser.name"
           placeholder="Enter name"
           class="h-[30px] border-1 border-grey-50 text-[grey] p-3 rounded-md"
         />
@@ -14,6 +15,7 @@
 
         <input
           type="email"
+          v-model = "UserStore.formUser.email"
           placeholder="Enter email"
           class="h-[30px] border-1 border-grey-50 text-[grey] p-3 rounded-md"
         />
@@ -29,7 +31,7 @@
         />
 
         <DatePicker
-          v-model="date"
+          v-model="UserStore.formUser.date"
           v-if="datepickerVisible"
           @update:model-value="handledatepicker"
         />
@@ -38,7 +40,7 @@
         <br />
 
         <multiselect
-          v-model="value"
+          v-model="UserStore.formUser.language"
           :options="language"
           :multiple="true"
           @tag="addTag"
@@ -47,12 +49,10 @@
           class="border-1 rounded-md"
         >
         </multiselect>
-        <!-- <span v-if="$v.confirm_pass.$error" class="text-red-500">{{
-        $v.confirm_pass.$passwordMatch || 'Passwords do not match!'
-      }}</span> -->
+
         <br />
         <select
-          v-model="selectCity"
+          v-model="UserStore.formUser.city"
           class="h-[30px] border-1 border-grey-50 text-[grey] p-1 rounded-md"
         >
           <option v-for="city in cities" :key="city.id" :value="city.name">
@@ -64,6 +64,7 @@
         <div class="flex justify-center ">
          <button
           type="button"
+          @click="UserStore.addUser"
           class="bg-[#728FCE] h-8 rounded-md max-w-2xs w-[300px]  text-center  text-white cursor-pointer"
         >
           Submit
@@ -71,6 +72,8 @@
         </div>
        
       </div>
+
+      <TableData />
     </div>
   </div>
 </template>
@@ -82,6 +85,8 @@ import { Calendar, DatePicker } from 'v-calendar'
 import 'v-calendar/style.css'
 import Multiselect from 'vue-multiselect'
 import 'vue-multiselect/dist/vue-multiselect.min.css'
+import {useUserStore} from '../Store/UserStore.ts'
+import TableData from '../components/TableData.vue'
 
 const cities = ref([
   { id: 1, name: 'New York' },
@@ -91,10 +96,17 @@ const cities = ref([
   { id: 5, name: 'Phoenix' },
 ])
 
+const UserStore = useUserStore()
+
+
 const selectCity = ref(cities.value[0])
 
 const date = ref(new Date())
 const datepickerVisible = ref(false)
+
+function addTag(newTag) {
+  UserStore.formUser.language.push(newTag)
+}
 
 function toggleDatepicker() {
   datepickerVisible.value = !datepickerVisible.value

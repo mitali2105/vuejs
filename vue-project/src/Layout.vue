@@ -37,6 +37,7 @@ const hideSidebar = computed(() => route.meta.hideSidebar);
 const Homepage = computed(() => route.path === "/")
 const Logout = computed(() => route.path === "/logout")
 
+console.log("Current route:", route.path);
 
 </script>
 

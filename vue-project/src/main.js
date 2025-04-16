@@ -2,21 +2,24 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './routing'
 import './assets/main.css'
+import { createPinia } from 'pinia'
 
-// ✅ Import AG Grid modules and styles
+// ✅ AG Grid styles
 import 'ag-grid-community/styles/ag-grid.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css'
 
-// ✅ Register required AG Grid modules
+// ✅ AG Grid setup
 import { ModuleRegistry } from 'ag-grid-community'
 import { ClientSideRowModelModule } from 'ag-grid-community'
 import { AgGridVue } from 'ag-grid-vue3'
 
 ModuleRegistry.registerModules([ClientSideRowModelModule])
 
-// ✅ Create app and register AgGridVue globally
+// ✅ Create app and Pinia instance
 const app = createApp(App)
+const pinia = createPinia() // ← ✅ This creates the actual Pinia store
 
-app.component('AgGridVue', AgGridVue) // <- Register AgGridVue globally
+app.component('AgGridVue', AgGridVue)
 app.use(router)
+app.use(pinia) // ✅ This now registers the correct Pinia instance
 app.mount('#app')

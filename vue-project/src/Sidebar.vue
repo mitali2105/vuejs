@@ -26,22 +26,59 @@
       </button>
     </div>
 
-    <ul class="mt-4">
-      <!-- <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/">Home</router-link></li> -->
-      <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/dashboard">Dashboard</router-link></li>
-      <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/form">Form</router-link></li>
-      <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/profile">Profile</router-link></li>
-      <!-- <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/tabledata">Table</router-link></li> -->
-      <li class="p-4 hover:bg-gray-700 cursor-pointer"><router-link to="/logout">Logout</router-link></li>
+    <ul class="mt-4 space-y-1">
+      <li class="p-4 hover:bg-gray-700 cursor-pointer">
+        <router-link to="/dashboard">Dashboard</router-link>
+      </li>
 
+      <!-- FORMS DROPDOWN -->
+      <li class="p-4 hover:bg-gray-700 cursor-pointer" @click="toggleDropdown">
+        <div class="flex justify-between items-center">
+          <span>Forms</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              :d="isDropdownOpen ? 'M5 15l7-7 7 7' : 'M19 9l-7 7-7-7'"
+            />
+          </svg>
+        </div>
+      </li>
+      <ul v-if="isDropdownOpen" class="ml-6 space-y-1 text-sm">
+        <li class="p-2 hover:bg-gray-600 rounded">
+          <router-link to="/form/form">Form A</router-link>
+        </li>
+        <!-- <li class="p-2 hover:bg-gray-600 rounded">
+          <router-link to="/form/form-b">Form B</router-link>
+        </li> -->
+      </ul>
+
+      <li class="p-4 hover:bg-gray-700 cursor-pointer">
+        <router-link to="/profile">Profile</router-link>
+      </li>
+      <li class="p-4 hover:bg-gray-700 cursor-pointer">
+        <router-link to="/logout">Logout</router-link>
+      </li>
     </ul>
   </div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, ref } from "vue";
 
 const props = defineProps({
-  isOpen: Boolean
+  isOpen: Boolean,
 });
+
+const isDropdownOpen = ref(false);
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
 </script>
